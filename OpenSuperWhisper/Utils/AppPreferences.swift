@@ -130,9 +130,15 @@ final class AppPreferences {
     @UserDefault(key: "startHiddenInMenuBar", defaultValue: false)
     var startHiddenInMenuBar: Bool
 
-    /// Local-LLM reformulation of the dictation. Off by default: enabling it
-    /// downloads a multi-gigabyte model and adds seconds to every dictation.
-    @UserDefault(key: "reformulationEnabled", defaultValue: false)
+    /// Local-LLM reformulation of the dictation. On by default: cleaning up
+    /// spoken self-corrections is the reason this fork exists, and a feature
+    /// nobody switches on is a feature nobody has.
+    ///
+    /// The cost is real and paid on first use — a multi-gigabyte download, then
+    /// a few seconds per dictation. That is why the indicator reports the model
+    /// load as its own state instead of showing "Riscrittura..." for minutes
+    /// (see `IndicatorViewModel.reformulateIfEnabled`).
+    @UserDefault(key: "reformulationEnabled", defaultValue: true)
     var reformulationEnabled: Bool
 
     @UserDefault(key: "autoDeleteRecordingsEnabled", defaultValue: false)

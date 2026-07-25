@@ -64,9 +64,9 @@ struct FileDropOverlay: ViewModifier {
                                 .font(.system(size: 48))
                                 .foregroundColor(.accentColor)
                                 .symbolEffect(.bounce, value: handler.isDragging)
-                            Text("Drop audio files to transcribe")
+                            Text("Trascina qui i file audio da trascrivere")
                                 .font(.headline)
-                            Text("Multiple files will be queued")
+                            Text("Se sono più di uno, verranno messi in coda")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
