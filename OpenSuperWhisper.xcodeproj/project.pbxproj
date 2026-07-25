@@ -830,7 +830,7 @@
 					"-lomp",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.starmel.OpenSuperWhisper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ItalianSuperWhisper;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -896,7 +896,7 @@
 					"-lomp",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = ru.starmel.OpenSuperWhisper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ItalianSuperWhisper;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

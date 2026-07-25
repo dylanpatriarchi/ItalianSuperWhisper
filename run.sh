@@ -43,9 +43,9 @@ if [[ $BUILD_STATUS -eq 0 ]] && [[ ! "$BUILD_OUTPUT" =~ "BUILD FAILED" ]]; then
     fi
     echo "Starting the app..."
     # Remove quarantine attribute if exists
-    xattr -d com.apple.quarantine ./Build/Build/Products/Debug/OpenSuperWhisper.app 2>/dev/null || true
+    xattr -d com.apple.quarantine ./Build/Build/Products/Debug/ItalianSuperWhisper.app 2>/dev/null || true
     # Run the app and show logs
-    ./Build/Build/Products/Debug/OpenSuperWhisper.app/Contents/MacOS/OpenSuperWhisper
+    ./Build/Build/Products/Debug/ItalianSuperWhisper.app/Contents/MacOS/ItalianSuperWhisper
 else
     echo "Build failed!"
     exit 1
