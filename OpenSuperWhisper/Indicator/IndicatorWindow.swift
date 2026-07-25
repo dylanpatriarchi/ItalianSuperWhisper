@@ -165,6 +165,19 @@ class IndicatorViewModel: ObservableObject {
         guard AppPreferences.shared.reformulationEnabled else { return text }
         guard !Task.isCancelled else { return text }
 
+        // The first dictation after install downloads gigabytes before it can
+        // rewrite anything. Showing "Riscrittura..." for that would read as a
+        // hang, so the load is surfaced as its own state first — the same one
+        // the transcription model uses, because to the user it is the same wait.
+        // The failure is swallowed here on purpose: `reformulate` runs `prepare`
+        // again and reports the error through the catch below, which is the one
+        // path that decides to keep the raw dictation.
+        if !ReformulationService.shared.isReady {
+            state = .modelLoading
+            _ = try? await ReformulationService.shared.prepare()
+            guard !Task.isCancelled else { return text }
+        }
+
         state = .reformulating
         do {
             return try await ReformulationService.shared.reformulate(text)
