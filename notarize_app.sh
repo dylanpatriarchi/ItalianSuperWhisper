@@ -3,7 +3,7 @@ set -e
 
 # === Configuration Variables ===
 APP_NAME="OpenSuperWhisper"                                   
-APP_PATH="./build/Build/Products/Release/OpenSuperWhisper.app"                        
+APP_PATH="./build/Build/Products/Release/ItalianSuperWhisper.app"                        
 ZIP_PATH="./build/OpenSuperWhisper.zip"                        
 BUNDLE_ID="ru.starmel.OpenSuperWhisper"                       
 KEYCHAIN_PROFILE="${KEYCHAIN_PROFILE:?set it to your notarytool keychain profile}"
