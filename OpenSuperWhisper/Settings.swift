@@ -551,28 +551,28 @@ struct SettingsDownloadableModels {
             isDownloaded: false,
             url: URL(string: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo.bin?download=true")!,
             size: 1624,
-            description: "High accuracy, best quality"
+            description: "Massima accuratezza, qualità migliore"
         ),
         SettingsDownloadableModel(
             name: "Turbo V3 medium",
             isDownloaded: false,
             url: URL(string: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin?download=true")!,
             size: 874,
-            description: "Balanced speed and accuracy"
+            description: "Equilibrio tra velocità e accuratezza"
         ),
         SettingsDownloadableModel(
             name: "Turbo V3 small",
             isDownloaded: false,
             url: URL(string: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin?download=true")!,
             size: 574,
-            description: "Fastest processing"
+            description: "Elaborazione più veloce"
         ),
         SettingsDownloadableModel(
             name: "Turbo V3 Hebrew",
             isDownloaded: false,
             url: URL(string: "https://huggingface.co/ivrit-ai/whisper-large-v3-turbo-ggml/resolve/main/ggml-model.bin?download=true")!,
             size: 1624,
-            description: "Hebrew fine-tune of Turbo V3 by ivrit.ai. Sets the language to Hebrew.",
+            description: "Turbo V3 ottimizzato per l'ebraico da ivrit.ai. Imposta la lingua su ebraico.",
             filename: "ggml-ivrit-large-v3-turbo.bin",
             preferredLanguage: "he"
         )
@@ -667,27 +667,27 @@ struct SettingsView: View {
              // Shortcut Settings
             shortcutSettings
                 .tabItem {
-                    Label("Shortcuts", systemImage: "command")
+                    Label("Scorciatoie", systemImage: "command")
                 }
                 .tag(0)
             // Model Settings
             modelSettings
                 .tabItem {
-                    Label("Model", systemImage: "cpu")
+                    Label("Modello", systemImage: "cpu")
                 }
                 .tag(1)
             
             // Transcription Settings
             transcriptionSettings
                 .tabItem {
-                    Label("Transcription", systemImage: "text.bubble")
+                    Label("Trascrizione", systemImage: "text.bubble")
                 }
                 .tag(2)
             
             // Advanced Settings
             advancedSettings
                 .tabItem {
-                    Label("Advanced", systemImage: "gear")
+                    Label("Avanzate", systemImage: "gear")
                 }
                 .tag(3)
             }
@@ -696,7 +696,7 @@ struct SettingsView: View {
         .background(Color(.windowBackgroundColor))
         .safeAreaInset(edge: .bottom) {
             HStack {
-                Button("Done") {
+                Button("Fine") {
                     if viewModel.selectedEngine == "whisper" {
                         if viewModel.selectedModelURL != previousModelURL, let modelPath = viewModel.selectedModelURL?.path {
                             TranscriptionService.shared.reloadModel(with: modelPath)
@@ -704,7 +704,7 @@ struct SettingsView: View {
                     }
                     dismiss()
                 }
-                .buttonStyle(.borderedProminent)
+                .glassProminentButton()
                 .controlSize(.regular)
                 
                 Spacer()
@@ -751,11 +751,11 @@ struct SettingsView: View {
     private var modelSettings: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Speech Recognition Engine")
+                Text("Motore di riconoscimento vocale")
                     .font(.headline)
                     .foregroundColor(.primary)
                 
-                Picker("Engine", selection: $viewModel.selectedEngine) {
+                Picker("Motore", selection: $viewModel.selectedEngine) {
                     Text("Parakeet").tag("fluidaudio")
                     Text("Whisper").tag("whisper")
                 }
@@ -764,11 +764,11 @@ struct SettingsView: View {
                 
                 if viewModel.selectedEngine == "whisper" {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Whisper Model")
+                        Text("Modello Whisper")
                             .font(.headline)
                             .foregroundColor(.primary)
                         
-                        Text("Download Models")
+                        Text("Scarica modelli")
                             .font(.headline)
                             .foregroundColor(.primary)
                             .padding(.top, 8)
@@ -785,16 +785,16 @@ struct SettingsView: View {
                         
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Models Directory:")
+                                Text("Cartella dei modelli:")
                                     .font(.subheadline)
                                 Button(action: {
                                     NSWorkspace.shared.open(WhisperModelManager.shared.modelsDirectory)
                                 }) {
-                                    Label("Open Folder", systemImage: "folder")
+                                    Label("Apri cartella", systemImage: "folder")
                                         .font(.subheadline)
                                 }
                                 .buttonStyle(.borderless)
-                                .help("Open models directory")
+                                .help("Apri la cartella dei modelli")
                             }
                             Text(WhisperModelManager.shared.modelsDirectory.path)
                                 .font(.caption)
@@ -808,11 +808,11 @@ struct SettingsView: View {
                     }
                 } else {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("Parakeet Model")
+                        Text("Modello Parakeet")
                             .font(.headline)
                             .foregroundColor(.primary)
                         
-                        Text("Download Models")
+                        Text("Scarica modelli")
                             .font(.headline)
                             .foregroundColor(.primary)
                             .padding(.top, 8)
@@ -825,18 +825,18 @@ struct SettingsView: View {
                         
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Models Directory:")
+                                Text("Cartella dei modelli:")
                                     .font(.subheadline)
                                 Button(action: {
                                     let cacheDir = AsrModels.defaultCacheDirectory(for: .v3)
                                     let parentDir = cacheDir.deletingLastPathComponent()
                                     NSWorkspace.shared.open(parentDir)
                                 }) {
-                                    Label("Open Folder", systemImage: "folder")
+                                    Label("Apri cartella", systemImage: "folder")
                                         .font(.subheadline)
                                 }
                                 .buttonStyle(.borderless)
-                                .help("Open models directory")
+                                .help("Apri la cartella dei modelli")
                             }
                             Text(AsrModels.defaultCacheDirectory(for: .v3).deletingLastPathComponent().path)
                                 .font(.caption)
@@ -852,8 +852,7 @@ struct SettingsView: View {
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(.controlBackgroundColor).opacity(0.3))
-            .cornerRadius(12)
+            .glassPanel(cornerRadius: 12)
         }
         .padding()
     }
@@ -863,15 +862,15 @@ struct SettingsView: View {
             VStack(spacing: 20) {
                 // Language Settings
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Language Settings")
+                    Text("Lingua")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Transcription Language")
+                        Text("Lingua della trascrizione")
                             .font(.subheadline)
                         
-                        Picker("Language", selection: $viewModel.selectedLanguage) {
+                        Picker("Lingua", selection: $viewModel.selectedLanguage) {
                             ForEach(viewModel.supportedLanguages, id: \.self) { code in
                                 Text(LanguageUtil.languageNames[code] ?? code)
                                     .tag(code)
@@ -888,18 +887,17 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
                 
                 // Output Options
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Output Options")
+                    Text("Opzioni di output")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
-                            Text("Show Timestamps")
+                            Text("Mostra i timestamp")
                                 .font(.subheadline)
                             Spacer()
                             Toggle("", isOn: $viewModel.showTimestamps)
@@ -908,7 +906,7 @@ struct SettingsView: View {
                         }
                         
                         HStack {
-                            Text("Suppress Blank Audio")
+                            Text("Ignora l'audio vuoto")
                                 .font(.subheadline)
                             Spacer()
                             Toggle("", isOn: $viewModel.suppressBlankAudio)
@@ -918,9 +916,9 @@ struct SettingsView: View {
                         
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Add Space After Sentence")
+                                Text("Aggiungi uno spazio dopo la frase")
                                     .font(.subheadline)
-                                Text("Appends a space when transcription ends with punctuation")
+                                Text("Aggiunge uno spazio quando la trascrizione finisce con un segno di punteggiatura")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -933,8 +931,7 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
 
                 // Reformulation
                 VStack(alignment: .leading, spacing: 16) {
@@ -968,21 +965,20 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
 
                 // Clipboard & Paste
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Clipboard & Paste")
+                    Text("Appunti e incolla")
                         .font(.headline)
                         .foregroundColor(.primary)
 
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Copy to Clipboard")
+                                Text("Copia negli appunti")
                                     .font(.subheadline)
-                                Text("Keep transcription in clipboard after recording")
+                                Text("Mantiene la trascrizione negli appunti dopo la registrazione")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -994,9 +990,9 @@ struct SettingsView: View {
 
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Auto-paste Transcription")
+                                Text("Incolla automaticamente")
                                     .font(.subheadline)
-                                Text("Automatically paste into the focused app")
+                                Text("Incolla la trascrizione nell'app in primo piano")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -1009,12 +1005,11 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
 
                 // Initial Prompt
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Initial Prompt")
+                    Text("Prompt iniziale")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
@@ -1029,35 +1024,34 @@ struct SettingsView: View {
                                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                             )
                         
-                        Text("Optional text to guide the model's transcription")
+                        Text("Testo facoltativo per guidare il modello: nomi propri, termini tecnici, anglicismi che usi spesso")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
                 
                 // Transcriptions Directory
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Transcriptions Directory")
+                    Text("Cartella delle trascrizioni")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
-                            Text("Directory:")
+                            Text("Cartella:")
                                 .font(.subheadline)
                             Spacer()
                             Button(action: {
                                 NSWorkspace.shared.open(Recording.recordingsDirectory)
                             }) {
-                                Label("Open Folder", systemImage: "folder")
+                                Label("Apri cartella", systemImage: "folder")
                                     .font(.subheadline)
                             }
                             .buttonStyle(.borderless)
-                            .help("Open transcriptions directory")
+                            .help("Apri la cartella delle trascrizioni")
                         }
                         
                         Text(Recording.recordingsDirectory.path)
@@ -1072,14 +1066,12 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
                 
                 RecordingStorageSettingsView()
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color(.controlBackgroundColor).opacity(0.3))
-                    .cornerRadius(12)
+                    .glassPanel(cornerRadius: 12)
             }
             .padding()
         }
@@ -1090,28 +1082,28 @@ struct SettingsView: View {
             VStack(spacing: 20) {
                 // Decoding Strategy
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Decoding Strategy")
+                    Text("Strategia di decodifica")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
-                            Text("Use Beam Search")
+                            Text("Usa la beam search")
                                 .font(.subheadline)
                             Spacer()
                             Toggle("", isOn: $viewModel.useBeamSearch)
                                 .toggleStyle(SwitchToggleStyle(tint: Color.accentColor))
                                 .labelsHidden()
-                                .help("Beam search can provide better results but is slower")
+                                .help("La beam search può dare risultati migliori ma è più lenta")
                         }
                         
                         if viewModel.useBeamSearch {
                             HStack {
-                                Text("Beam Size:")
+                                Text("Ampiezza del beam:")
                                     .font(.subheadline)
                                 Spacer()
                                 Stepper("\(viewModel.beamSize)", value: $viewModel.beamSize, in: 1...10)
-                                    .help("Number of beams to use in beam search")
+                                    .help("Numero di beam usati nella beam search")
                                     .frame(width: 120)
                             }
                         }
@@ -1119,19 +1111,18 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
                 
                 // Model Parameters
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Model Parameters")
+                    Text("Parametri del modello")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 14) {
                         VStack(alignment: .leading, spacing: 6) {
                             HStack {
-                                Text("Temperature:")
+                                Text("Temperatura:")
                                     .font(.subheadline)
                                 Spacer()
                                 Text(String(format: "%.2f", viewModel.temperature))
@@ -1140,12 +1131,12 @@ struct SettingsView: View {
                             }
                             
                             Slider(value: $viewModel.temperature, in: 0.0...1.0, step: 0.1)
-                                .help("Higher values make the output more random")
+                                .help("Valori più alti rendono l'output più casuale")
                         }
                         
                         VStack(alignment: .leading, spacing: 6) {
                             HStack {
-                                Text("No Speech Threshold:")
+                                Text("Soglia di assenza di parlato:")
                                     .font(.subheadline)
                                 Spacer()
                                 Text(String(format: "%.2f", viewModel.noSpeechThreshold))
@@ -1154,35 +1145,33 @@ struct SettingsView: View {
                             }
                             
                             Slider(value: $viewModel.noSpeechThreshold, in: 0.0...1.0, step: 0.1)
-                                .help("Threshold for detecting speech vs. silence")
+                                .help("Soglia per distinguere il parlato dal silenzio")
                         }
                     }
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
                 
                 // Debug Options
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Debug Options")
+                    Text("Opzioni di debug")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
                     HStack {
-                        Text("Debug Mode")
+                        Text("Modalità debug")
                             .font(.subheadline)
                         Spacer()
                         Toggle("", isOn: $viewModel.debugMode)
                             .toggleStyle(SwitchToggleStyle(tint: Color.accentColor))
                             .labelsHidden()
-                            .help("Enable additional logging and debugging information")
+                            .help("Attiva log e informazioni di debug aggiuntive")
                     }
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
             }
             .padding()
         }
@@ -1202,10 +1191,10 @@ struct SettingsView: View {
                     .font(.caption)
                     .foregroundColor(.orange)
                 
-                Button("Grant Permission") {
+                Button("Concedi il permesso") {
                     grantAction()
                 }
-                .buttonStyle(.bordered)
+                .glassButton()
                 .controlSize(.small)
             }
             .padding(.top, 4)
@@ -1223,7 +1212,7 @@ struct SettingsView: View {
             VStack(spacing: 20) {
                 // Recording Trigger
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Recording Trigger")
+                    Text("Attivazione della registrazione")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
@@ -1249,9 +1238,9 @@ struct SettingsView: View {
                                 }
                             }
                         )) {
-                            Text("Key Combination").tag(TriggerMode.keyCombo)
-                            Text("Single Modifier Key").tag(TriggerMode.modifier)
-                            Text("Mouse Button").tag(TriggerMode.mouse)
+                            Text("Combinazione di tasti").tag(TriggerMode.keyCombo)
+                            Text("Singolo tasto modificatore").tag(TriggerMode.modifier)
+                            Text("Pulsante del mouse").tag(TriggerMode.mouse)
                         }
                         .pickerStyle(.segmented)
 
@@ -1259,7 +1248,7 @@ struct SettingsView: View {
                         case .modifier:
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
-                                    Text("Modifier Key")
+                                    Text("Tasto modificatore")
                                         .font(.subheadline)
                                     Spacer()
                                     Picker("", selection: $viewModel.modifierOnlyHotkey) {
@@ -1283,9 +1272,9 @@ struct SettingsView: View {
 
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text("Double Tap to Trigger")
+                                        Text("Doppio tocco per attivare")
                                             .font(.subheadline)
-                                        Text("Require two quick taps to avoid accidental activation")
+                                        Text("Richiede due tocchi rapidi per evitare attivazioni accidentali")
                                             .font(.caption)
                                             .foregroundColor(.secondary)
                                     }
@@ -1309,7 +1298,7 @@ struct SettingsView: View {
                         case .mouse:
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
-                                    Text("Mouse Button")
+                                    Text("Pulsante del mouse")
                                         .font(.subheadline)
                                     Spacer()
                                     Picker("", selection: $viewModel.mouseButtonHotkey) {
@@ -1325,7 +1314,7 @@ struct SettingsView: View {
                                 .background(Color(.textBackgroundColor).opacity(0.5))
                                 .cornerRadius(8)
 
-                                Text("Click to toggle recording, or hold when Hold to Record is on. The left and right buttons are reserved — pick the middle or an extra (thumb) button.")
+                                Text("Un clic avvia e ferma la registrazione; se \"Tieni premuto per registrare\" è attivo, si registra finché lo tieni premuto. I pulsanti destro e sinistro sono riservati — scegli il centrale o un pulsante extra (del pollice).")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
 
@@ -1339,7 +1328,7 @@ struct SettingsView: View {
                         case .keyCombo:
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
-                                    Text("Shortcut")
+                                    Text("Scorciatoia")
                                         .font(.subheadline)
                                     Spacer()
                                     KeyboardShortcuts.Recorder("", name: .toggleRecord)
@@ -1351,7 +1340,7 @@ struct SettingsView: View {
                                 .cornerRadius(8)
 
                                 if isRecordingNewShortcut {
-                                    Text("Press your new shortcut combination...")
+                                    Text("Premi la nuova combinazione di tasti...")
                                         .foregroundColor(.secondary)
                                         .font(.subheadline)
                                 }
@@ -1361,21 +1350,20 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
                 
                 // Recording Behavior
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Recording Behavior")
+                    Text("Comportamento della registrazione")
                         .font(.headline)
                         .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Hold to Record")
+                                Text("Tieni premuto per registrare")
                                     .font(.subheadline)
-                                Text("Hold the shortcut to record, release to stop")
+                                Text("Tieni premuta la scorciatoia per registrare, rilascia per fermare")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -1386,20 +1374,20 @@ struct SettingsView: View {
                         }
                         
                         HStack {
-                            Text("Play sound when recording starts")
+                            Text("Riproduci un suono all'avvio della registrazione")
                                 .font(.subheadline)
                             Spacer()
                             Toggle("", isOn: $viewModel.playSoundOnRecordStart)
                                 .toggleStyle(SwitchToggleStyle(tint: Color.accentColor))
                                 .labelsHidden()
-                                .help("Play a notification sound when recording begins")
+                                .help("Riproduce un suono di notifica quando parte la registrazione")
                         }
                         
                         HStack {
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Cancel without confirmation")
+                                Text("Annulla senza conferma")
                                     .font(.subheadline)
-                                Text("Skip the double-Esc confirmation for recordings longer than 10 seconds")
+                                Text("Salta la conferma con doppio Esc per le registrazioni oltre i 10 secondi")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -1412,20 +1400,19 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
 
                 // Application
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Application")
+                    Text("Applicazione")
                         .font(.headline)
                         .foregroundColor(.primary)
 
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Start hidden in menu bar")
+                            Text("Avvia nascosto nella barra dei menu")
                                 .font(.subheadline)
-                            Text("Launch without opening the main window; use the menu bar icon to open it")
+                            Text("Si avvia senza aprire la finestra principale; usa l'icona nella barra dei menu per aprirla")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -1437,8 +1424,7 @@ struct SettingsView: View {
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(.controlBackgroundColor).opacity(0.3))
-                .cornerRadius(12)
+                .glassPanel(cornerRadius: 12)
             }
             .padding()
         }
@@ -1465,14 +1451,14 @@ struct SettingsFluidAudioModels {
             name: "Parakeet v3",
             version: "v3",
             isDownloaded: false,
-            description: "Multilingual, 25 languages",
+            description: "Multilingua, 25 lingue",
             size: 483
         ),
         SettingsFluidAudioModel(
             name: "Parakeet v2",
             version: "v2",
             isDownloaded: false,
-            description: "English-only, higher recall",
+            description: "Solo inglese, recall più alto",
             size: 464
         )
     ]
@@ -1505,9 +1491,9 @@ struct OnboardingUnifiedModel: Identifiable {
 struct OnboardingUnifiedModels {
     static let availableModels = [
         OnboardingUnifiedModel(
-            name: "Whisper V3 Large",
+            name: "Whisper Turbo V3 large",
             isDownloaded: false,
-            description: "High accuracy, best quality",
+            description: "Massima accuratezza, qualità migliore",
             type: .whisper(
                 url: URL(string: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo.bin?download=true")!,
                 size: 1624
@@ -1516,26 +1502,26 @@ struct OnboardingUnifiedModels {
         OnboardingUnifiedModel(
             name: "Parakeet v3",
             isDownloaded: false,
-            description: "Fastest processing and accurate",
+            description: "Veloce e accurato",
             type: .parakeet(version: "v3")
         ),
         OnboardingUnifiedModel(
             name: "Parakeet v2",
             isDownloaded: false,
-            description: "Fastest processing and English-only, higher recall",
+            description: "Molto veloce, solo inglese, recall più alto",
             type: .parakeet(version: "v2")
         ),
         OnboardingUnifiedModel(
-            name: "Whisper Medium",
+            name: "Whisper Turbo V3 medium (q8)",
             isDownloaded: false,
-            description: "Balanced speed and accuracy",
+            description: "Equilibrio tra velocità e accuratezza",
             type: .whisper(
                 url: URL(string: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin?download=true")!,
                 size: 874
             )
         ),
         OnboardingUnifiedModel(
-            name: "Whisper Small",
+            name: "Whisper Turbo V3 small (q5)",
             isDownloaded: false,
             description: "Very fast processing",
             type: .whisper(
@@ -1578,10 +1564,10 @@ struct FluidAudioModelDownloadItemView: View {
             Spacer()
             
             if viewModel.isDownloading && viewModel.downloadingModelName == model.name {
-                Button("Cancel") {
+                Button("Annulla") {
                     viewModel.cancelDownload()
                 }
-                .buttonStyle(.bordered)
+                .glassButton()
                 .controlSize(.small)
             } else if model.isDownloaded {
                 if isSelected {
@@ -1592,9 +1578,9 @@ struct FluidAudioModelDownloadItemView: View {
                     Button(action: {
                         viewModel.fluidAudioModelVersion = model.version
                     }) {
-                        Text("Select")
+                        Text("Seleziona")
                     }
-                    .buttonStyle(.borderedProminent)
+                    .glassProminentButton()
                     .controlSize(.small)
                 }
             } else {
@@ -1615,24 +1601,23 @@ struct FluidAudioModelDownloadItemView: View {
                             }
                         }
                     }) {
-                        Label("Download", systemImage: "arrow.down.circle")
+                        Label("Scarica", systemImage: "arrow.down.circle")
                     }
-                    .buttonStyle(.bordered)
+                    .glassButton()
                     .controlSize(.small)
                     .disabled(viewModel.isDownloading)
                 }
             }
         }
         .padding(12)
-        .background(isSelected ? Color(.controlBackgroundColor).opacity(0.7) : Color(.controlBackgroundColor).opacity(0.5))
-        .cornerRadius(8)
+        .glassPanel(cornerRadius: 8, tint: isSelected ? .accentColor : nil, interactive: true)
         .contentShape(Rectangle())
         .onTapGesture {
             if model.isDownloaded && !isSelected {
                 viewModel.fluidAudioModelVersion = model.version
             }
         }
-        .alert("Download Error", isPresented: $showError) {
+        .alert("Errore di download", isPresented: $showError) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(errorMessage)
@@ -1653,13 +1638,13 @@ struct RecordingStorageSettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("History Storage")
+            Text("Archivio della cronologia")
                 .font(.headline)
                 .foregroundColor(.primary)
 
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    Text("Recordings on disk:")
+                    Text("Registrazioni su disco:")
                         .font(.subheadline)
                     Spacer()
                     Text(ByteCountFormatter.string(fromByteCount: diskUsage, countStyle: .file))
@@ -1668,7 +1653,7 @@ struct RecordingStorageSettingsView: View {
                 }
 
                 HStack {
-                    Text("Delete recordings older than")
+                    Text("Elimina le registrazioni più vecchie di")
                         .font(.subheadline)
                     Spacer()
                     Picker("", selection: Binding(
@@ -1683,7 +1668,7 @@ struct RecordingStorageSettingsView: View {
                         }
                     )) {
                         ForEach(dayOptions, id: \.self) { days in
-                            Text(countLabel(days, singular: "day", plural: "days")).tag(days)
+                            Text(countLabel(days, singular: "giorno", plural: "giorni")).tag(days)
                         }
                     }
                     .pickerStyle(.menu)
@@ -1692,9 +1677,9 @@ struct RecordingStorageSettingsView: View {
 
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Auto-delete old recordings")
+                        Text("Elimina automaticamente le registrazioni vecchie")
                             .font(.subheadline)
-                        Text("Removes both audio files and their transcriptions from history")
+                        Text("Rimuove dalla cronologia sia i file audio sia le relative trascrizioni")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -1712,20 +1697,20 @@ struct RecordingStorageSettingsView: View {
                     ))
                     .toggleStyle(SwitchToggleStyle(tint: Color.accentColor))
                     .labelsHidden()
-                    .help("Automatically delete recordings and their transcriptions older than the selected number of days")
+                    .help("Elimina automaticamente le registrazioni e le trascrizioni più vecchie del numero di giorni scelto")
                 }
             }
         }
         .onAppear {
             refreshDiskUsage()
         }
-        .alert("Delete Old Recordings?", isPresented: $showConfirmation) {
-            Button("Delete", role: .destructive) {
+        .alert("Eliminare le registrazioni vecchie?", isPresented: $showConfirmation) {
+            Button("Elimina", role: .destructive) {
                 confirmAutoDelete()
             }
-            Button("Cancel", role: .cancel) {}
+            Button("Annulla", role: .cancel) {}
         } message: {
-            Text("\(countLabel(pendingCount, singular: "recording", plural: "recordings")) with \(pendingCount == 1 ? "its transcription" : "their transcriptions") starting from \(formattedDate(pendingOldestDate)) will be deleted.")
+            Text("Verranno eliminate \(countLabel(pendingCount, singular: "registrazione", plural: "registrazioni")) con \(pendingCount == 1 ? "la relativa trascrizione" : "le relative trascrizioni"), a partire dal \(formattedDate(pendingOldestDate)).")
         }
     }
 
@@ -1800,7 +1785,7 @@ struct ModelDownloadItemView: View {
                         Link(owner, destination: pageURL)
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                            .help("View on Hugging Face")
+                            .help("Apri su Hugging Face")
                     }
                 }
                 
@@ -1819,10 +1804,10 @@ struct ModelDownloadItemView: View {
             Spacer()
             
             if viewModel.isDownloading && viewModel.downloadingModelName == model.name {
-                Button("Cancel") {
+                Button("Annulla") {
                     viewModel.cancelDownload()
                 }
-                .buttonStyle(.bordered)
+                .glassButton()
                 .controlSize(.small)
             } else if model.isDownloaded {
                 if isSelected {
@@ -1834,9 +1819,9 @@ struct ModelDownloadItemView: View {
                         let modelPath = WhisperModelManager.shared.modelsDirectory.appendingPathComponent(model.filename).path
                         viewModel.selectModel(URL(fileURLWithPath: modelPath))
                     }) {
-                        Text("Select")
+                        Text("Seleziona")
                     }
-                    .buttonStyle(.borderedProminent)
+                    .glassProminentButton()
                     .controlSize(.small)
                 }
             } else {
@@ -1857,17 +1842,16 @@ struct ModelDownloadItemView: View {
                             }
                         }
                     }) {
-                        Label("Download", systemImage: "arrow.down.circle")
+                        Label("Scarica", systemImage: "arrow.down.circle")
                     }
-                    .buttonStyle(.bordered)
+                    .glassButton()
                     .controlSize(.small)
                     .disabled(viewModel.isDownloading)
                 }
             }
         }
         .padding(12)
-        .background(isSelected ? Color(.controlBackgroundColor).opacity(0.7) : Color(.controlBackgroundColor).opacity(0.5))
-        .cornerRadius(8)
+        .glassPanel(cornerRadius: 8, tint: isSelected ? .accentColor : nil, interactive: true)
         .contentShape(Rectangle())
         .onTapGesture {
             if model.isDownloaded && !isSelected {
@@ -1875,7 +1859,7 @@ struct ModelDownloadItemView: View {
                 viewModel.selectModel(URL(fileURLWithPath: modelPath))
             }
         }
-        .alert("Download Error", isPresented: $showError) {
+        .alert("Errore di download", isPresented: $showError) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(errorMessage)

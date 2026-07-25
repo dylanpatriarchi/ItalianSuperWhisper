@@ -329,7 +329,7 @@ struct OnboardingView: View {
             // Header with gradient background
             VStack(alignment: .leading, spacing: 16) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Welcome to")
+                    Text("Benvenuto in")
                         .font(.title2)
                         .fontWeight(.medium)
                         .foregroundColor(.secondary)
@@ -345,7 +345,7 @@ struct OnboardingView: View {
                 // Language Selection
                 HStack(spacing: 8) {
                     
-                    Picker("Language", selection: $viewModel.selectedLanguage) {
+                    Picker("Lingua", selection: $viewModel.selectedLanguage) {
                         ForEach(LanguageUtil.availableLanguages, id: \.self) { code in
                             Text(LanguageUtil.languageNames[code] ?? code)
                                 .tag(code)
@@ -377,11 +377,11 @@ struct OnboardingView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     // Shortcut Selection
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Shortcut")
+                        Text("Scorciatoia")
                             .font(.headline)
                             .fontWeight(.semibold)
-                        
-                        Text("Choose how to trigger recording")
+
+                        Text("Scegli come avviare la registrazione")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
@@ -389,48 +389,53 @@ struct OnboardingView: View {
                             OnboardingKeyboardView(selectedShortcut: viewModel.selectedShortcut, layoutInfo: layoutInfo)
                         }
                         
-                        HStack(spacing: 8) {
-                            OnboardingShortcutCard(
-                                title: "⌥ + ~",
-                                subtitle: "Key Combination",
-                                isSelected: viewModel.selectedShortcut == .keyCombination
-                            ) {
-                                viewModel.selectedShortcut = .keyCombination
-                            }
-                            
-                            OnboardingShortcutCard(
-                                title: "Right ⌥",
-                                subtitle: "Single Modifier Key",
-                                isSelected: viewModel.selectedShortcut == .rightOption
-                            ) {
-                                viewModel.selectedShortcut = .rightOption
+                        GlassGroup(spacing: 8) {
+                            HStack(spacing: 8) {
+                                OnboardingShortcutCard(
+                                    title: "⌥ + ~",
+                                    subtitle: "Combinazione di tasti",
+                                    isSelected: viewModel.selectedShortcut == .keyCombination
+                                ) {
+                                    viewModel.selectedShortcut = .keyCombination
+                                }
+
+                                OnboardingShortcutCard(
+                                    title: "⌥ destro",
+                                    subtitle: "Singolo tasto modificatore",
+                                    isSelected: viewModel.selectedShortcut == .rightOption
+                                ) {
+                                    viewModel.selectedShortcut = .rightOption
+                                }
                             }
                         }
-                        
+
+
                         if viewModel.selectedShortcut == .rightOption {
-                            Text("⚠️ Single modifier key mode requires Input Monitoring permission (macOS needs it to detect modifier keys globally). Only modifier key events are monitored — no regular keystrokes.")
+                            Text("⚠️ La modalità a singolo modificatore richiede il permesso di Monitoraggio Input (macOS ne ha bisogno per rilevare i tasti modificatori a livello di sistema). Vengono monitorati solo gli eventi dei modificatori — nessuna digitazione normale.")
                                 .font(.caption2)
                                 .foregroundColor(.orange)
                         }
 
-                        Text("You can change this later in Settings")
+                        Text("Potrai cambiarla in seguito nelle Impostazioni")
                             .font(.caption2)
                             .foregroundColor(Color(.tertiaryLabelColor))
                     }
                     
                     // Model Selection
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Model")
+                        Text("Modello")
                             .font(.headline)
                             .fontWeight(.semibold)
-                        
-                        Text("Download a model to get started")
+
+                        Text("Scarica un modello per iniziare")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
-                        VStack(spacing: 8) {
-                            ForEach($viewModel.unifiedModels) { $model in
-                                OnboardingUnifiedModelItemView(model: $model, viewModel: viewModel)
+                        GlassGroup(spacing: 8) {
+                            VStack(spacing: 8) {
+                                ForEach($viewModel.unifiedModels) { $model in
+                                    OnboardingUnifiedModelItemView(model: $model, viewModel: viewModel)
+                                }
                             }
                         }
                     }
@@ -448,13 +453,13 @@ struct OnboardingView: View {
                     handleContinueButtonTap()
                 }) {
                     HStack(spacing: 6) {
-                        Text("Continue")
+                        Text("Continua")
                         Image(systemName: "arrow.right")
                             .font(.system(size: 12, weight: .semibold))
                     }
                     .frame(minWidth: 100)
                 }
-                .buttonStyle(.borderedProminent)
+                .glassProminentButton()
                 .controlSize(.large)
                 .disabled(!viewModel.canContinue || viewModel.isDownloading)
             }
@@ -477,7 +482,7 @@ struct OnboardingView: View {
                 )
             }
         )
-        .alert("Download Error", isPresented: $showError) {
+        .alert("Errore di download", isPresented: $showError) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(errorMessage)
@@ -512,7 +517,7 @@ struct OnboardingUnifiedModelItemView: View {
                         Link(owner, destination: pageURL)
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                            .help("View on Hugging Face")
+                            .help("Apri su Hugging Face")
                     }
                 }
                 
@@ -531,10 +536,10 @@ struct OnboardingUnifiedModelItemView: View {
             Spacer()
             
             if viewModel.isDownloading && viewModel.downloadingModelName == model.name {
-                Button("Cancel") {
+                Button("Annulla") {
                     viewModel.cancelDownload()
                 }
-                .buttonStyle(.bordered)
+                .glassButton()
                 .controlSize(.small)
             } else if model.isDownloaded {
                 if isSelected {
@@ -545,9 +550,9 @@ struct OnboardingUnifiedModelItemView: View {
                     Button(action: {
                         viewModel.selectModel(model)
                     }) {
-                        Text("Select")
+                        Text("Seleziona")
                     }
-                    .buttonStyle(.borderedProminent)
+                    .glassProminentButton()
                     .controlSize(.small)
                 }
             } else {
@@ -563,30 +568,26 @@ struct OnboardingUnifiedModelItemView: View {
                         }
                     }
                 }) {
-                    Label("Download", systemImage: "arrow.down.circle")
+                    Label("Scarica", systemImage: "arrow.down.circle")
                 }
-                .buttonStyle(.bordered)
+                .glassButton()
                 .controlSize(.small)
                 .disabled(viewModel.isDownloading)
             }
         }
         .padding(14)
-        .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(isSelected ? Color(.controlBackgroundColor).opacity(0.8) : Color(.controlBackgroundColor).opacity(0.5))
-                .shadow(color: isSelected ? Color.blue.opacity(0.2) : Color.black.opacity(0.05), radius: isSelected ? 8 : 4, x: 0, y: 2)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(isSelected ? Color.blue.opacity(0.3) : Color.clear, lineWidth: 1.5)
-        )
+        // The selected card is tinted rather than outlined: on glass a stroke
+        // fights the material's own edge highlight, while a tint reads clearly
+        // in both appearances.
+        .glassPanel(cornerRadius: 10, tint: isSelected ? .accentColor : nil, interactive: true)
+        .animation(.easeInOut(duration: 0.2), value: isSelected)
         .contentShape(Rectangle())
         .onTapGesture {
             if model.isDownloaded && !isSelected {
                 viewModel.selectModel(model)
             }
         }
-        .alert("Download Error", isPresented: $showError) {
+        .alert("Errore di download", isPresented: $showError) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(errorMessage)
@@ -761,15 +762,8 @@ struct OnboardingShortcutCard: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
             .padding(.horizontal, 8)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(isSelected ? Color(.controlBackgroundColor).opacity(0.8) : Color(.controlBackgroundColor).opacity(0.5))
-                    .shadow(color: isSelected ? Color.blue.opacity(0.2) : Color.black.opacity(0.05), radius: isSelected ? 8 : 4, x: 0, y: 2)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(isSelected ? Color.blue.opacity(0.3) : Color.clear, lineWidth: 1.5)
-            )
+            .glassPanel(cornerRadius: 10, tint: isSelected ? .accentColor : nil, interactive: true)
+            .animation(.easeInOut(duration: 0.2), value: isSelected)
         }
         .buttonStyle(.plain)
     }
