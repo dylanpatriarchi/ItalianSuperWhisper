@@ -422,14 +422,14 @@ struct IndicatorWindow: View {
     static let appearInitialScale: CGFloat = 0.5
     
     @ObservedObject var viewModel: IndicatorViewModel
-    @Environment(\.colorScheme) private var colorScheme
-    
-    private var backgroundColor: Color {
-        colorScheme == .dark
-            ? Color.black.opacity(0.24)
-            : Color.white.opacity(0.24)
+
+    /// Tints the glass while the Esc-to-cancel confirmation is showing, so the
+    /// warning reads as a state of the indicator itself and not just a label
+    /// swap. Nothing else is tinted: a tint everywhere would mean nothing.
+    private var tint: Color? {
+        viewModel.isConfirmingCancel ? .orange : nil
     }
-    
+
     var body: some View {
 
         let rect = RoundedRectangle(cornerRadius: 24)
@@ -442,7 +442,7 @@ struct IndicatorWindow: View {
                         .scaleEffect(0.7)
                         .frame(width: 24)
                     
-                    Text("Connecting...")
+                    Text("Connessione...")
                         .font(.system(size: 13, weight: .semibold))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -453,12 +453,12 @@ struct IndicatorWindow: View {
                         .frame(width: 24)
                     
                     if viewModel.isConfirmingCancel {
-                        Text("Press Esc to cancel")
+                        Text("Premi Esc per annullare")
                             .font(.system(size: 12, weight: .semibold))
                             .foregroundColor(.orange)
                             .transition(.opacity)
                     } else {
-                        Text("Recording...")
+                        Text("Registrazione...")
                             .font(.system(size: 13, weight: .semibold))
                             .transition(.opacity)
                     }
@@ -472,7 +472,7 @@ struct IndicatorWindow: View {
                         .scaleEffect(0.7)
                         .frame(width: 24)
                     
-                    Text("Transcribing...")
+                    Text("Trascrizione...")
                         .font(.system(size: 13, weight: .semibold))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -483,7 +483,7 @@ struct IndicatorWindow: View {
                         .scaleEffect(0.7)
                         .frame(width: 24)
 
-                    Text("Rewriting...")
+                    Text("Riscrittura...")
                         .font(.system(size: 13, weight: .semibold))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -494,7 +494,7 @@ struct IndicatorWindow: View {
                         .foregroundColor(.orange)
                         .frame(width: 24)
 
-                    Text("Processing...")
+                    Text("Elaborazione...")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.orange)
                 }
@@ -506,7 +506,7 @@ struct IndicatorWindow: View {
                         .foregroundColor(.orange)
                         .frame(width: 24)
 
-                    Text("No microphone")
+                    Text("Nessun microfono")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.orange)
                 }
@@ -518,7 +518,7 @@ struct IndicatorWindow: View {
                         .foregroundColor(.orange)
                         .frame(width: 24)
 
-                    Text("Loading model...")
+                    Text("Caricamento modello...")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.orange)
                 }
@@ -530,14 +530,12 @@ struct IndicatorWindow: View {
         }
         .padding(.horizontal, 24)
         .frame(height: Self.cardSize.height)
-        .background {
-            rect
-                .fill(backgroundColor)
-                .background {
-                    rect
-                        .fill(Material.thinMaterial)
-                }
-        }
+        // Liquid Glass rather than a material: this card floats over whatever
+        // the user is dictating into, which is exactly the navigation-layer
+        // case the effect is meant for. It is applied once and never animated
+        // — see the note at the end of the body about why.
+        .glassSurface(in: rect, tint: tint)
+        .animation(.easeInOut(duration: 0.2), value: viewModel.isConfirmingCancel)
         .overlay(alignment: .bottom) {
             if viewModel.isConfirmingCancel {
                 CancelConfirmationBar()

@@ -27,10 +27,10 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>14.0</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>ItalianSuperWhisper needs microphone access to record audio for transcription.</string>
+	<string>ItalianSuperWhisper usa il microfono per registrare l'audio da trascrivere.</string>
 	<key>NSAccessibilityUsageDescription</key>
-	<string>ItalianSuperWhisper needs accessibility access to provide system-wide functionality.</string>
+	<string>ItalianSuperWhisper usa l'Accessibilità per le scorciatoie globali e per incollare il testo nell'app in primo piano.</string>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>ItalianSuperWhisper needs accessibility access to provide system-wide functionality.</string>
+	<string>ItalianSuperWhisper usa l'Accessibilità per le scorciatoie globali e per incollare il testo nell'app in primo piano.</string>
 </dict>
 </plist>

@@ -39,7 +39,7 @@ struct OpenSuperWhisperApp: App {
         .commands {
             CommandGroup(replacing: .newItem) {}
             CommandGroup(replacing: .appSettings) {
-                Button("Settings...") {
+                Button("Impostazioni...") {
                     if let delegate = NSApplication.shared.delegate as? AppDelegate {
                         delegate.showMainWindow()
                     }
@@ -234,7 +234,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         
         menu.addItem(NSMenuItem(title: "ItalianSuperWhisper", action: #selector(openApp), keyEquivalent: "o"))
         
-        let transcriptionLanguageItem = NSMenuItem(title: "Language", action: nil, keyEquivalent: "")
+        let transcriptionLanguageItem = NSMenuItem(title: "Lingua", action: nil, keyEquivalent: "")
         languageSubmenu = NSMenu()
         
         if let languageSubmenu {
@@ -254,14 +254,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         
         menu.addItem(NSMenuItem.separator())
         
-        let microphoneMenu = NSMenuItem(title: "Microphone", action: nil, keyEquivalent: "")
+        let microphoneMenu = NSMenuItem(title: "Microfono", action: nil, keyEquivalent: "")
         let submenu = NSMenu()
         
         let microphones = microphoneService.availableMicrophones
         let currentMic = microphoneService.currentMicrophone
         
         if microphones.isEmpty {
-            let noDeviceItem = NSMenuItem(title: "No microphones available", action: nil, keyEquivalent: "")
+            let noDeviceItem = NSMenuItem(title: "Nessun microfono disponibile", action: nil, keyEquivalent: "")
             noDeviceItem.isEnabled = false
             submenu.addItem(noDeviceItem)
         } else {
@@ -309,7 +309,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         menu.addItem(microphoneMenu)
         
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Esci", action: #selector(quitApp), keyEquivalent: "q"))
         
         statusItem?.menu = menu
     }

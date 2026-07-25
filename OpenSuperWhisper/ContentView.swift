@@ -341,7 +341,7 @@ struct ContentView: View {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.secondary)
 
-                        TextField("Search in transcriptions", text: $searchText)
+                        TextField("Cerca nelle trascrizioni", text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
                             .onChange(of: searchText) { _, newValue in
                                 performSearch(newValue)
@@ -362,12 +362,7 @@ struct ContentView: View {
                         }
                     }
                     .padding(10)
-                    .background(ThemePalette.panelSurface(colorScheme))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(ThemePalette.panelBorder(colorScheme), lineWidth: 1)
-                    )
-                    .cornerRadius(20)
+                    .glassPanel(cornerRadius: 20, interactive: true)
                     .padding([.horizontal, .top])
 
                     ScrollView(showsIndicators: false) {
@@ -380,11 +375,11 @@ struct ContentView: View {
                                         .foregroundColor(.secondary)
                                         .padding(.top, 40)
 
-                                    Text("No results found")
+                                    Text("Nessun risultato")
                                         .font(.headline)
                                         .foregroundColor(.secondary)
 
-                                    Text("Try different search terms")
+                                    Text("Prova con altri termini di ricerca")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                         .multilineTextAlignment(.center)
@@ -396,11 +391,11 @@ struct ContentView: View {
                                         .foregroundColor(.secondary)
                                         .padding(.top, 40)
 
-                                    Text("No recordings yet")
+                                    Text("Ancora nessuna registrazione")
                                         .font(.headline)
                                         .foregroundColor(.secondary)
 
-                                    Text("Tap the record button below to get started")
+                                    Text("Premi il pulsante di registrazione qui sotto per iniziare")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                         .multilineTextAlignment(.center)
@@ -408,12 +403,12 @@ struct ContentView: View {
 
                                     if let shortcut = KeyboardShortcuts.getShortcut(for: .toggleRecord) {
                                         VStack(spacing: 8) {
-                                            Text("Pro Tip:")
+                                            Text("Suggerimento:")
                                                 .font(.subheadline)
                                                 .foregroundColor(.secondary)
 
                                             HStack(spacing: 4) {
-                                                Text("Press")
+                                                Text("Premi")
                                                     .font(.subheadline)
                                                     .foregroundColor(.secondary)
                                                 Text(shortcut.description)
@@ -422,12 +417,12 @@ struct ContentView: View {
                                                     .padding(.vertical, 3)
                                                     .background(Color.secondary.opacity(0.2))
                                                     .cornerRadius(6)
-                                                Text("anywhere")
+                                                Text("ovunque")
                                                     .font(.subheadline)
                                                     .foregroundColor(.secondary)
                                             }
 
-                                            Text("to quickly record and paste text")
+                                            Text("per registrare e incollare il testo al volo")
                                                 .font(.subheadline)
                                                 .foregroundColor(.secondary)
                                         }
@@ -518,7 +513,7 @@ struct ContentView: View {
                                     Text(currentShortcutDescription)
                                         .font(.caption)
                                         .foregroundColor(.secondary)
-                                    Text("to show mini recorder")
+                                    Text("per aprire il mini registratore")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -529,7 +524,7 @@ struct ContentView: View {
                                     Image(systemName: "arrow.down.doc.fill")
                                         .foregroundColor(.secondary)
                                         .imageScale(.medium)
-                                    Text("Drop audio file here to transcribe")
+                                    Text("Trascina qui un file audio per trascriverlo")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -549,26 +544,21 @@ struct ContentView: View {
                                             .font(.title3)
                                             .foregroundColor(.secondary)
                                             .frame(width: 32, height: 32)
-                                            .background(ThemePalette.panelSurface(colorScheme))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                    .stroke(ThemePalette.panelBorder(colorScheme), lineWidth: 1)
-                                            )
-                                            .cornerRadius(8)
+                                            .glassPanel(cornerRadius: 8, interactive: true)
                                     }
                                     .buttonStyle(.plain)
-                                    .help("Delete all recordings")
+                                    .help("Elimina tutte le registrazioni")
                                     .confirmationDialog(
-                                        "Delete All Recordings",
+                                        "Elimina tutte le registrazioni",
                                         isPresented: $showDeleteConfirmation,
                                         titleVisibility: .visible
                                     ) {
-                                        Button("Delete All", role: .destructive) {
+                                        Button("Elimina tutte", role: .destructive) {
                                             viewModel.deleteAllRecordings()
                                         }
-                                        Button("Cancel", role: .cancel) {}
+                                        Button("Annulla", role: .cancel) {}
                                     } message: {
-                                        Text("Are you sure you want to delete all recordings? This action cannot be undone.")
+                                        Text("Vuoi davvero eliminare tutte le registrazioni? L'operazione non può essere annullata.")
                                     }
                                     .interactiveDismissDisabled()
                                 }
@@ -580,15 +570,10 @@ struct ContentView: View {
                                         .font(.title3)
                                         .foregroundColor(.secondary)
                                         .frame(width: 32, height: 32)
-                                        .background(ThemePalette.panelSurface(colorScheme))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 8)
-                                                .stroke(ThemePalette.panelBorder(colorScheme), lineWidth: 1)
-                                        )
-                                        .cornerRadius(8)
+                                        .glassPanel(cornerRadius: 8, interactive: true)
                                 }
                                 .buttonStyle(.plain)
-                                .help("Settings")
+                                .help("Impostazioni")
                             }
                         }
                     }
@@ -631,7 +616,7 @@ struct ContentView: View {
                     VStack(spacing: 16) {
                         ProgressView()
                             .scaleEffect(1.5)
-                        Text("Loading Whisper Model...")
+                        Text("Caricamento del modello Whisper...")
                             .foregroundColor(.white)
                             .font(.headline)
                     }
@@ -662,14 +647,14 @@ struct PermissionsView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("Required Permissions")
+            Text("Permessi necessari")
                 .font(.title)
                 .padding()
 
             PermissionRow(
                 isGranted: permissionsManager.isMicrophonePermissionGranted,
-                title: "Microphone Access",
-                description: "Required for audio recording",
+                title: "Accesso al microfono",
+                description: "Serve per registrare l'audio",
                 action: {
                     permissionsManager.requestMicrophonePermissionOrOpenSystemPreferences()
                 }
@@ -677,8 +662,8 @@ struct PermissionsView: View {
 
             PermissionRow(
                 isGranted: permissionsManager.isAccessibilityPermissionGranted,
-                title: "Accessibility Access",
-                description: "Required for global keyboard shortcuts",
+                title: "Accesso di Accessibilità",
+                description: "Serve per le scorciatoie da tastiera globali e per incollare il testo",
                 action: { permissionsManager.openSystemPreferences(for: .accessibility) }
             )
 
@@ -707,7 +692,7 @@ struct PermissionRow: View {
                 Spacer()
 
                 if !isGranted {
-                    Button("Grant Access") {
+                    Button("Concedi accesso") {
                         action()
                     }
                     .buttonStyle(.borderedProminent)
@@ -719,8 +704,7 @@ struct PermissionRow: View {
                 .foregroundColor(.secondary)
         }
         .padding()
-        .background(ThemePalette.panelSurface(colorScheme))
-        .cornerRadius(10)
+        .glassPanel(cornerRadius: 10)
     }
 }
 
@@ -826,7 +810,7 @@ struct RecordingRow: View {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .font(.caption)
                             .foregroundColor(.red)
-                        Text("Transcription failed")
+                        Text("Trascrizione non riuscita")
                             .font(.caption)
                             .foregroundColor(.red)
                     }
@@ -855,7 +839,7 @@ struct RecordingRow: View {
                 .padding(.horizontal, 4)
                 .padding(.top, isPending && !isRegenerating ? 4 : 8)
             } else if !isPending {
-                Text("No speech detected")
+                Text("Nessun parlato rilevato")
                     .font(.body)
                     .foregroundColor(.secondary)
                     .padding(.horizontal, 12)
@@ -947,7 +931,7 @@ struct RecordingRow: View {
                                 .foregroundColor(.secondary)
                         }
                         .buttonStyle(.plain)
-                        .help("Copy entire text")
+                        .help("Copia tutto il testo")
                         .transition(.opacity)
                     }
 
@@ -960,7 +944,7 @@ struct RecordingRow: View {
                                 .foregroundColor(.secondary)
                         }
                         .buttonStyle(.plain)
-                        .help("Regenerate transcription")
+                        .help("Rigenera la trascrizione")
                         .transition(.opacity)
                     }
 
@@ -1183,19 +1167,14 @@ struct MicrophonePickerIconView: View {
                 .font(.title3)
                 .foregroundColor(.secondary)
                 .frame(width: 32, height: 32)
-                .background(ThemePalette.panelSurface(colorScheme))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(ThemePalette.panelBorder(colorScheme), lineWidth: 1)
-                )
-                .cornerRadius(8)
+                .glassPanel(cornerRadius: 8, interactive: true)
         }
         .buttonStyle(.plain)
-        .help(microphoneService.currentMicrophone?.displayName ?? "Select microphone")
+        .help(microphoneService.currentMicrophone?.displayName ?? "Scegli il microfono")
         .popover(isPresented: $showMenu, arrowEdge: .top) {
             VStack(alignment: .leading, spacing: 0) {
                 if microphoneService.availableMicrophones.isEmpty {
-                    Text("No microphones available")
+                    Text("Nessun microfono disponibile")
                         .foregroundColor(.secondary)
                         .padding()
                 } else {
@@ -1304,17 +1283,9 @@ enum ThemePalette {
             : .white
     }
 
-    static func panelSurface(_ scheme: ColorScheme) -> Color {
-        scheme == .dark
-            ? Color.gray.opacity(0.1)
-            : Color(red: 0.95, green: 0.96, blue: 0.98)
-    }
-
-    static func panelBorder(_ scheme: ColorScheme) -> Color {
-        scheme == .dark
-            ? Color.gray.opacity(0.2)
-            : Color(red: 0.86, green: 0.88, blue: 0.92)
-    }
+    // panelSurface/panelBorder are gone: every panel that used them is a glass
+    // surface now, and glass draws its own edge — a hand-rolled border on top
+    // of it reads as a double outline.
 
     static func cardBackground(_ scheme: ColorScheme) -> Color {
         scheme == .dark
